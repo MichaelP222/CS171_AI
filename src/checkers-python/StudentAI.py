@@ -16,7 +16,6 @@ class StudentAI():
         self.opponent = {1:2,2:1}
         self.color = 2
         self.depth = 3 # look ahead depth
-        self.previous_boards = set() # track seen board states
 
     # returns best move 
     def get_move(self,move):
@@ -25,14 +24,10 @@ class StudentAI():
         else:
             self.color = 1
         
-        # convert board state to hashable string
+        # convert board state to a hashable string
         board_state = str(self.board.board)
 
-        # if seen board add penalty
-        if board_state in self.previous_boards:
-            return self.force_non_repetitive_move()
-        
-        self.previous_boards.add(board_state)  # store new board state
+        self.previous_boards.add(board_state)  # Store new board state
         
         best_move = self.minimax(self.board, self.depth, True, float('-inf'), float('inf'))[-1]
         self.board.make_move(best_move, self.color)
@@ -103,13 +98,4 @@ class StudentAI():
         
         return ai_pieces - opp_pieces # higher score is better for AI
 
-    # forces a move that breaks repetition (increase non-tie rate)
-    def force_non_repetitive_move(self):
-        moves = self.board.get_all_possible_moves(self.color)
-        for move_list in moves:
-            for move in move_list:
-                new_board = copy.deepcopy(self.board)
-                new_board.make_move(move, self.color)
-                if str(new_board.board) not in self.previous_boards:
-                    return move
-        return moves[0][0]  # default to any move if stuck
+
