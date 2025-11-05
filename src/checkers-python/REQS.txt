@@ -1,0 +1,3 @@
+read percepts and act rationally;
+your grade will be determined by your agent’s performance measure. 
+At the end of the quarter, your agent will compete against your classmates’ agents in a class tournament. All code must be able to run on Openlab.
